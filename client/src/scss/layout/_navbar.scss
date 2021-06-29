@@ -1,0 +1,57 @@
+@use '../variables/other' as vars;
+
+nav {
+  width: 100vw;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+
+    .logo {
+      color: #fff;
+      margin-bottom: 0;
+
+      text-decoration: none;
+      font-size: 2rem;
+      font-weight: 500;
+    }
+  }
+
+  .links-container {
+    list-style: none;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+  
+    .link {
+      margin: 0 1rem;
+      font-size: 1.25rem;
+      user-select: none;
+  
+      a {
+        text-decoration: none;
+        transition: vars.$trasition-duration;
+        color: #fff;
+  
+        &:hover {
+          color: darken(#fff, 20%);
+        }
+      }
+    }
+
+    .btn {
+      margin-left: 1rem;
+    }
+  
+    .current {
+      a {
+        color: #ccc;
+      }
+    }
+  }
+}

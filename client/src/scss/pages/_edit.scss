@@ -1,0 +1,18 @@
+@use './create' as *;
+
+.edit-container {
+  @extend .create-container;
+  padding-top: 2rem;
+
+  .buttons-container {
+    margin-top: .5em;
+
+    .btn {
+      margin-left: .5rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}

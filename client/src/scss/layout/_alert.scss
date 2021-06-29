@@ -1,0 +1,53 @@
+$alert-width: 50vw;
+
+.alert {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  padding: 1rem 1.5rem;
+  width: $alert-width;
+  margin-left: -$alert-width * 0.5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .alert-text {
+    margin-right: auto;
+  }
+
+  .alert-icon {
+    font-size: 1.25rem;
+    margin-right: 1.5rem;
+  }
+
+  .close-alert-btnd {
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.alert-enter {
+  opacity: 0;
+  top: -10rem;
+}
+
+.alert-enter-active {
+  opacity: 1;
+  top: 2rem;
+  transition: 300ms;
+}
+
+.alert-exit {
+  opacity: 1;
+  top: 2rem;
+}
+
+.alert-exit-active {
+  opacity: 0;
+  top: -10rem;
+  transition: 300ms;
+}

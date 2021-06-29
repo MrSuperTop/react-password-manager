@@ -1,0 +1,21 @@
+.no-data-container {
+  user-select: none;
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .text-dimm {
+    color: #aaa;
+
+    .btn {
+      margin-left: 0.75rem;
+    }
+
+    svg {
+      margin-left: .5rem;
+    }
+  }
+}
