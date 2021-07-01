@@ -15,6 +15,8 @@ export const UPDATE_ONE = 'UPDATE_ONE';
 export const UPDATE_DATA = 'UPDATE_DATA';
 export const CLEAR_DATA = 'CLEAR_DATA';
 export const SET_INITIAL = 'SET_INITIAL';
+export const EXPAND_INITIAL = 'EXPAND_INITIAL';
+export const SET_CLEAR_MIDDLEWARE = 'SET_CLEAR_MIDDLEWARE';
 
 // Alert
 export const SHOW_ALERT = 'SHOW_ALERT';

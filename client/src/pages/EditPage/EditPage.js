@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import Loader from '../../components/Loader/Loader';
 import { CredentialsContext } from '../../context/credentials/credentialsContext';
-import { InputsContext } from '../../context/inputs/inputsContext';
+import InputsContext from '../../context/inputs/inputsContext';
 import DataInputs from '../../components/DataInput/DataInputs';
 import CredentialsList from '../../components/CredentialsList/CredentialsList';
 import { AlertContext } from '../../context/alert/alertContext';
@@ -56,7 +56,7 @@ const EditPage = () => {
     <div className="container edit-container">
       <form onSubmit={submitHandler}>
         <DataInputs type={data.type}/>
-        
+
         <div className="buttons-container">
           <button type="submit" className="btn btn-primary">
             Edit

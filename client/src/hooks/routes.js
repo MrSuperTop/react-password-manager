@@ -1,15 +1,15 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import InputsState from './context/inputs/InputsState';
+import InputsState from '../context/inputs/InputsState';
 
-import AuthPage from './pages/AuthPage/AuthPage';
-import HomePage from './pages/HomePage/HomePage';
-import Navbar from './components/Navbar/Navbar';
-import Alert from './components/Alert/Alert';
-import AboutPage from './pages/AboutPage/AboutPage';
-import CreatePage from './pages/CreatePage/CreatePage';
-import EditPage from './pages/EditPage/EditPage';
+import AuthPage from '../pages/AuthPage/AuthPage';
+import HomePage from '../pages/HomePage/HomePage';
+import Navbar from '../components/Navbar/Navbar';
+import Alert from '../components/Alert/Alert';
+import AboutPage from '../pages/AboutPage/AboutPage';
+import CreatePage from '../pages/CreatePage/CreatePage';
+import EditPage from '../pages/EditPage/EditPage';
 
 const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -21,12 +21,12 @@ const useRoutes = (isAuthenticated) => {
         <Switch>
           <Route path="/home" component={HomePage} />
           <Route path="/create">
-            <InputsState type="e&p">
+            <InputsState>
               <CreatePage />
             </InputsState>
           </Route>
           <Route path="/edit/:id">
-            <InputsState type="e&p">
+            <InputsState>
               <EditPage />
             </InputsState>
           </Route>

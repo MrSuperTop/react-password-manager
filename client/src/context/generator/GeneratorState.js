@@ -3,17 +3,9 @@ import React, { useReducer, useEffect, useContext } from 'react';
 import { SET_VISIBILITY, SET_REF, SET_POSITION } from '../types';
 import { generatorReducer } from './generatorReducer';
 import { GeneratorContext } from './generatorContext';
-import { InputsContext } from '../inputs/inputsContext';
-
-const charSets = {
-  lowercase: 'abcdefghijklmnopqrstuvwxyz',
-  uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-  specialSymbols: `!"#$%&'()*+,-./:;<=>?@[\]^_\\{|}~`,
-  numbers: '0123456789'
-};
+import InputsContext from '../inputs/inputsContext';
 
 const GeneratorState = ({ children }) => {
-  const inputs = useContext(InputsContext);
   const [state, dispatch] = useReducer(generatorReducer, {
     visible: false,
     container: null,
@@ -22,30 +14,35 @@ const GeneratorState = ({ children }) => {
   });
 
   useEffect(() => {
-    // TODO: Как это сжделать красивее?
-    inputs.expandType('pass-gen');
+    window.addEventListener('resize', updatePostion);
+
+    return (() => {
+      window.removeEventListener('resize', updatePostion);
+    });
   }, []);
 
   // TODO: Так делают?
   const setRef = (ref) => {
-    console.log(ref)
     dispatch({ type: SET_REF, payload: ref });
   };
 
   const show = () => {
     dispatch({ type: SET_VISIBILITY, payload: true });
+    updatePostion();
+  };
 
-    console.log(state)
+  const updatePostion = () => {
+    if (!state.refs) {
+      return setPosition({ top: 0, left: 0 });
+    }
+
     const dimentions = state.refs.inputContainer.getBoundingClientRect();
     let { top, left, width, height } = dimentions;
     top += height + 16;
     left += (width / 2 - state.refs.generator.clientWidth / 2);
 
-    setPosition({
-      top,
-      left
-    });
-  };
+    setPosition({ top, left });
+  }
 
   const hide = () => {
     dispatch({ type: SET_VISIBILITY, payload: false })
@@ -55,34 +52,9 @@ const GeneratorState = ({ children }) => {
     dispatch({ type: SET_POSITION, payload: position })
   };
 
-  const choice = (array) => {
-    return array[Math.ceil(Math.random() * array.length - 1)];
-  }
-
-  const genPassword = () => {
-    let charSet = '';
-    let result = '';
-    const { uppercase, lowercase, specialSymbols, numbers } = inputs.values;
-
-    if (uppercase) charSet += charSets.uppercase;
-    if (lowercase) charSet += charSets.lowercase;
-    if (specialSymbols) charSet += charSets.specialSymbols;
-    if (numbers) charSet += charSets.numbers;
-
-    if (!charSet) return '';
-    
-    console.log(charSet)
-    const length = Number.parseInt(inputs.values.passwordLength)
-    for (let i = 0; i < length; i++) {
-      result += choice(charSet);
-    }
-
-    return result;
-  };
-
   return (
     <GeneratorContext.Provider value={{
-      setRef, show, hide, setPosition, genPassword,
+      setRef, show, hide, setPosition,
       objects: state.refs,
       visible: state.visible,
       position: state.position

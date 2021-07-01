@@ -1,20 +1,17 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { InputsContext } from '../../../context/inputs/inputsContext';
+import InputsContext from '../../../context/inputs/inputsContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 
 import PasswordGenerator from '../../PasswordGenerator/PasswordGenerator';
-import InputsState from '../../../context/inputs/InputsState';
 import { GeneratorContext } from '../../../context/generator/generatorContext';
 
-// FIX_ME: Переделать через контекст
 // TODO: Нормально ли ту запрашивать valueName или лучше сразу предавать хначение, может вообще нету смысла ничего запрашивать, а просто брать значение с id
 const PasswordInput = ({ children, valueAttrName, label, id, placeholder, notRequired, toggable, noGenerator }) => {
   const inputs = useContext(InputsContext);
   const generator = useContext(GeneratorContext)
 
-  const [passwordLength, setPasswordLength] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
 
   const inputRef = useRef();
@@ -22,6 +19,10 @@ const PasswordInput = ({ children, valueAttrName, label, id, placeholder, notReq
 
   useEffect(() => {
     inputRef.current.required = !notRequired;
+
+    if (!noGenerator) {
+      inputs.expandType(['pass-gen']); // TODO: Как это сжделать красивее?
+    } // HERE
   }, []);
 
   const togglePasswordVisiblity = () => {
@@ -30,15 +31,6 @@ const PasswordInput = ({ children, valueAttrName, label, id, placeholder, notReq
 
   const changeHandler = (e) => {
     inputs.changeHandler(e);
-
-    setPasswordLength(e.target.value.length);
-  };
-
-  const generatePassword = () => {
-    const password = generator.genPassword();
-
-    inputs.setValue('password', password);
-    setPasswordLength(password.length);
   };
 
   return (
@@ -46,7 +38,6 @@ const PasswordInput = ({ children, valueAttrName, label, id, placeholder, notReq
       {!noGenerator && (
         <PasswordGenerator
           inputContainerRef={inputContainerRef}
-          generatePassword={generatePassword}
         />
       )}
 
@@ -80,7 +71,7 @@ const PasswordInput = ({ children, valueAttrName, label, id, placeholder, notReq
           ) : null}
 
           <span className="input-group-text length-counter">
-            {passwordLength}
+            {inputs.values[valueAttrName]?.length || 0}
           </span>
         </div>
       </div>

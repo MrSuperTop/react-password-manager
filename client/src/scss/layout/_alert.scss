@@ -1,8 +1,11 @@
+$alert-transition-duration: 150ms;
 $alert-width: 50vw;
+$alert-top-spacing: 2rem;
 
 .alert {
   position: absolute;
-  top: 2rem;
+  transition: $alert-transition-duration ease-in-out;
+  top: $alert-top-spacing;
   left: 50%;
   padding: 1rem 1.5rem;
   width: $alert-width;
@@ -32,22 +35,24 @@ $alert-width: 50vw;
 
 .alert-enter {
   opacity: 0;
-  top: -10rem;
+  top: -5rem;
+  opacity: 1;
 }
 
 .alert-enter-active {
-  opacity: 1;
-  top: 2rem;
-  transition: 300ms;
+  top: $alert-top-spacing * 1.25;
+}
+
+.alert-enter-done {
+  top: $alert-top-spacing;
 }
 
 .alert-exit {
   opacity: 1;
-  top: 2rem;
+  top: $alert-top-spacing;
 }
 
 .alert-exit-active {
   opacity: 0;
-  top: -10rem;
-  transition: 300ms;
+  top: -5rem;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faAt, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
@@ -8,10 +8,13 @@ import PasswordInput from '../../FormElements/PasswordInput/PasswordInput';
 import { getUserEmails } from '../../../api';
 import Loader from '../../Loader/Loader';
 import GeneratorState from '../../../context/generator/GeneratorState';
+import InputsContext from '../../../context/inputs/inputsContext';
 
 // TODO: Как называть файлы такого типа?
 const EmailAndPassword = () => {
+  const inputs = useContext(InputsContext);
   const [selectEmails, setSelectEmails] = useState([]);
+  const [defaultOption, setDefaultOption] = useState(selectEmails[0]);
 
   useEffect(() => {
     getUserEmails().then(({ data }) => {
@@ -20,6 +23,11 @@ const EmailAndPassword = () => {
         label: item
       })));
     });
+
+    if (inputs.values?.email) {
+      const value = inputs.values?.email;
+      setDefaultOption({ value, label: value });
+    }
   }, []);
 
   if (!selectEmails) return <Loader />;
@@ -37,12 +45,11 @@ const EmailAndPassword = () => {
       </FormItem>
 
       <div className="top-row">
-        {/* FIX_ME: Ability to add a clear button + make the toggle button look better and possibly add an animation */}
         <FormSelect
           valueAttrName="email"
           label="Email"
           selectSettings={{
-            defaultValue: selectEmails[0],
+            defaultValue: defaultOption,
             options: selectEmails
           }}
         >

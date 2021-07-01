@@ -1,10 +1,18 @@
-import React, { useContext, useEffect } from 'react';
-import { InputsContext } from '../../../context/inputs/inputsContext';
+import React, { useState, useContext, useEffect } from 'react';
+import InputsContext from '../../../context/inputs/inputsContext';
 import Creatable from 'react-select/creatable';
 
-// FIX_ME: Make a use of AsyncSelect
 const FormSelect = ({ children, valueAttrName, label, selectSettings }) => {
   const inputs = useContext(InputsContext);
+  const [selected, setSelected] = useState(selectSettings.defaultValue);
+
+  const onClear = () => {
+    if (!inputs.values[valueAttrName]) {
+      return setSelected(null);
+    }
+
+    setSelected(selectSettings.defaultValue);
+  };
 
   useEffect(() => {
     if (selectSettings.defaultValue) {
@@ -13,10 +21,13 @@ const FormSelect = ({ children, valueAttrName, label, selectSettings }) => {
         valueAttrName
       );
     }
+
+    inputs.setClearMiddleware(onClear);
   }, []);
 
-  const changeHandler = (e) => {
-    inputs.selectChangeHandler(e, valueAttrName);
+  const changeHandler = (option) => {
+    inputs.selectChangeHandler(option, valueAttrName);
+    setSelected(option);
   };
 
   return (
@@ -27,7 +38,9 @@ const FormSelect = ({ children, valueAttrName, label, selectSettings }) => {
           {children}
         </span>
         <Creatable
-          valueAttrName="email"
+          required
+          value={selected}
+          defaultInputValue={inputs.values[valueAttrName]}
           onChange={changeHandler}
           {...selectSettings}
         />

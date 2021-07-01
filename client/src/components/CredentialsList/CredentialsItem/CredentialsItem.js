@@ -17,7 +17,7 @@ const CredentialsItem = ({ data, deleteItem, editItem }) => {
 
     alert.showWithTimeout(`Copied to your clipboard! "${string}"`)
     await navigator.clipboard.writeText(string);
-  }
+  };
 
   return (
     <div className="credentials-item bg-dark">

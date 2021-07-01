@@ -2,6 +2,7 @@ import React, { useReducer, useEffect, useContext } from 'react';
 
 import { logIn as logInAPI, register as registerAPI } from '../../api';
 import { AlertContext } from '../alert/alertContext';
+import { CredentialsContext } from '../credentials/credentialsContext';
 import { LOG_IN, LOG_OUT, IMPORT_DATA } from '../types';
 import { AuthContext } from './authContext';
 import { authReducer } from './authReducer';
@@ -10,6 +11,7 @@ const keyName = 'userData';
 
 const AuthState = ({ children }) => {
   const alert = useContext(AlertContext);
+  const credentials = useContext(CredentialsContext);
   const [state, dispatch] = useReducer(authReducer, {
     token: null,
     userId: null
@@ -51,6 +53,7 @@ const AuthState = ({ children }) => {
     dispatch({ type: LOG_OUT });
     alert.showWithTimeout('You have just logged out', 'danger');
 
+    credentials.clearData();
     localStorage.removeItem(keyName);
   }
 

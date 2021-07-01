@@ -30,7 +30,6 @@ form {
     }
   }
 
-
   .form-item {
     width: 100%;
     margin-bottom: .5rem;
@@ -82,14 +81,14 @@ form {
     display: flex;
     align-items: center;
     justify-content: left;
+  }
 
-    .form-item {
-      margin: 0 1rem 0 0;
-      width: 50%;
+  .top-row > .form-item {
+    margin: 0 1rem 0 0;
+    width: 50%;
 
-      &:last-child {
-        margin-right: 0;
-      }
+    &:last-child {
+      margin-right: 0;
     }
   }
 }

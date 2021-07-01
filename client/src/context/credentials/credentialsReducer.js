@@ -1,7 +1,8 @@
-import { FETCH_CREDENTIALS, SET_LOADING, DELETE_ONE, ADD_ONE, GET_ONE, UPDATE_ONE } from '../types';
+import { FETCH_CREDENTIALS, SET_LOADING, DELETE_ONE, ADD_ONE, GET_ONE, UPDATE_ONE, CLEAR_DATA } from '../types';
 
 const handlers = {
   [SET_LOADING]: (state, { payload }) => ({ ...state, loading: payload }),
+  [CLEAR_DATA]: (state) => ({ ...state, list: [], post: {} }),
   [FETCH_CREDENTIALS]: (state, { payload }) => ({
     ...state,
     loading: true,

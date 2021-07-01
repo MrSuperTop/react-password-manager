@@ -1,10 +1,14 @@
-import { UPDATE_DATA, CLEAR_DATA, SET_INITIAL } from '../types';
+import { UPDATE_DATA, CLEAR_DATA, SET_INITIAL, EXPAND_INITIAL, SET_CLEAR_MIDDLEWARE } from '../types';
 
 const handlers = {
   [SET_INITIAL]: (state, { payload }) => ({
     ...state,
-    initial: payload,
-    values: payload
+    initial: { ...payload }
+  }),
+
+  [EXPAND_INITIAL]: (state, { payload }) => ({
+    ...state,
+    initial: { ...state.initial, ...payload }
   }),
 
   [UPDATE_DATA]: (state, { payload }) => ({
@@ -13,6 +17,11 @@ const handlers = {
       ...state.values,
       ...payload
     }
+  }),
+
+  [SET_CLEAR_MIDDLEWARE]: (state, { payload }) => ({
+    ...state,
+    clearMiddleware: payload
   }),
 
   [CLEAR_DATA]: (state) => ({ ...state, values: { ...state.initial } }),

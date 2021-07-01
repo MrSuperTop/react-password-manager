@@ -2,7 +2,7 @@ import React, { useReducer, useContext } from 'react';
 
 import { fetchCredentials, deleteOne as deleteOneAPI, addOne as addOneAPI, getOne as getOneAPI, editOne as editOneAPI } from '../../api';
 import { AlertContext } from '../alert/alertContext';
-import { FETCH_CREDENTIALS, SET_LOADING, ADD_ONE, DELETE_ONE, GET_ONE, UPDATE_ONE } from '../types';
+import { FETCH_CREDENTIALS, SET_LOADING, ADD_ONE, DELETE_ONE, GET_ONE, UPDATE_ONE, CLEAR_DATA } from '../types';
 import { CredentialsContext } from './credentialsContext';
 import { credentialsReducer } from './credentialsReducer';
 
@@ -24,9 +24,13 @@ const CredentialsState = ({ children }) => {
   const fetch = async () => {
     // TODO: Делать автоматом loading: true в reducer-е или и так нормально?
     const { data: { data } } = await fetchCredentials();
-    dispatch({ type: FETCH_CREDENTIALS, payload: data })
+    dispatch({ type: FETCH_CREDENTIALS, payload: data });
     setLoading(false);
   };
+
+  const clearData = async () => {
+    dispatch({ type: CLEAR_DATA });
+  }
 
   const addItem = async (formData) => {
     const { data } = await addOneAPI(formData);
@@ -60,7 +64,8 @@ const CredentialsState = ({ children }) => {
 
   return (
     <CredentialsContext.Provider value={{
-      fetch, fetchOne, deleteItem, addItem, editItem,
+      fetch, fetchOne, addItem, editItem,
+      clearData, deleteItem,
       singleItem: state.post,
       loading: state.loading,
       list: state.list

@@ -1,7 +1,21 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseUrl: ' https://localhost:5000/api',
+  baseUrl: 'https://localhost:5000/api',
+  transformResponse: [function (data) {
+    let errorMessage = 'Some invalid data was passed. Errors:\n';
+    data = JSON.parse(data)
+
+    if (data.errors) {
+      data.errors.map((item) => {
+        errorMessage += `${item.msg}\n`;
+      });
+
+      console.error(errorMessage);
+    }
+
+    return data;
+  }]
 });
 
 API.interceptors.request.use((req) => {

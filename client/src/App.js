@@ -2,8 +2,10 @@ import React, { useContext } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap';
+
 import './scss/main.scss';
-import useRoutes from './routes'
+import useRoutes from './hooks/routes'
 import { AuthContext } from './context/auth/authContext';
 
 function App() {

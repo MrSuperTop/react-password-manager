@@ -10,11 +10,11 @@ ReactDOM.render(
   <React.StrictMode>
     {/* TODO: Положение этого прекрасного стейта */}
     <AlertState>
-      <AuthState>
-        <CredentialsState>
+      <CredentialsState>
+        <AuthState>
           <App />
-        </CredentialsState>
-      </AuthState>
+        </AuthState>
+      </CredentialsState>
     </AlertState>
   </React.StrictMode>,
   document.getElementById('root')

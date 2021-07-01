@@ -1,7 +1,8 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer } from 'react';
+import usePasswordField from '../../hooks/passwordField';
 
-import { UPDATE_DATA, CLEAR_DATA, SET_INITIAL } from '../types';
-import { InputsContext } from './inputsContext';
+import { UPDATE_DATA, CLEAR_DATA, SET_INITIAL, EXPAND_INITIAL, SET_CLEAR_MIDDLEWARE } from '../types';
+import InputsContext from './inputsContext';
 import { inputsReducer } from './inputsReducer';
 
 const initialStates = {
@@ -13,33 +14,50 @@ const initialStates = {
   'pass-gen': {
     uppercase: true,
     lowercase: true,
-    specialSymbols: true,
+    specialSymbols: false,
     numbers: true,
-    passwordLength: ""
+    passwordLength: "16",
+    autoRegenerate: false
   }
 }
 
-const InputsState = ({ children, type = 'e&p' }) => {
+const InputsState = ({ children }) => {
   // TODO: Про loading в этом стейте, или создать отдельный стейт для лоадингв
+  const passwordField = usePasswordField();
   const [state, dispatch] = useReducer(inputsReducer, {
-    values: {}
+    values: {},
+    initial: {}
   });
 
-  useEffect(() => {
-    setValues(initialStates[type]);
-  }, []);
-  
-  const setType = (typeString) => {
+
+  const setValues = (values) => {
     dispatch({
       type: SET_INITIAL,
-      payload: initialStates[typeString]
+      payload: values
+    });
+
+    dispatch({ type: CLEAR_DATA });
+  }
+
+  const expandValues = (values) => {
+    dispatch({
+      type: EXPAND_INITIAL,
+      payload: values
+    });
+
+    dispatch({ type: CLEAR_DATA });
+  }
+
+  const setType = (typeString, expandWith = []) => {
+    setValues(initialStates[typeString]);
+    expandWith.map((item) => {
+      expandValues({ ...state.initial, ...initialStates[item] });
     });
   };
 
-  const expandType = (typeString) => {
-    dispatch({
-      type: SET_INITIAL,
-      payload: { ...state.initial, ...initialStates[typeString] }
+  const expandType = (expandWith = []) => {
+    expandWith.map((item) => {
+      expandValues({ ...state.initial, ...initialStates[item] });
     });
   };
 
@@ -47,25 +65,37 @@ const InputsState = ({ children, type = 'e&p' }) => {
     dispatch({ type: UPDATE_DATA, payload: { [inputAttrName]: value } });
   };
 
-  const setValues = (values) => {
-    dispatch({
-      type: SET_INITIAL,
-      payload: values
-    });
-  }
+  const changeMiddleware = (e, changedValue) => {
+    const name = e.target.name;
+    const isValid = Object.keys(initialStates['pass-gen']).includes(name);
+
+    if (isValid && name !== 'autoRegenerate' && state.values.autoRegenerate) {
+      const updated = {
+        ...state.values,
+        ...changedValue
+      };
+
+      const password = passwordField.generate(updated);
+      dispatch({ type: UPDATE_DATA, payload: { password } });
+    }
+  };
 
   const changeHandler = (e) => {
     const value = e.target.value;
     const name = e.target.name;
+    const payload = { [name]: value };
 
-    dispatch({ type: UPDATE_DATA, payload: { [name]: value } });
+    dispatch({ type: UPDATE_DATA, payload });
+    changeMiddleware(e, payload);
   };
 
   const checkboxChangeHandler = (e) => {
     const value = e.target.checked;
     const name = e.target.name;
+    const payload = { [name]: !!value };
 
-    dispatch({ type: UPDATE_DATA, payload: { [name]: !!value } });
+    dispatch({ type: UPDATE_DATA, payload });
+    changeMiddleware(e, payload);
   };
 
   const selectChangeHandler = (e, attrName) => {
@@ -80,7 +110,14 @@ const InputsState = ({ children, type = 'e&p' }) => {
   }
 
   const clear = () => {
-    dispatch({ type: CLEAR_DATA })
+    const middleware = state.clearMiddleware || (() => {})
+    
+    middleware();
+    dispatch({ type: CLEAR_DATA });
+  };
+
+  const setClearMiddleware = (func) => {
+    dispatch({ type: SET_CLEAR_MIDDLEWARE, payload: func });
   };
 
   return (
@@ -89,6 +126,8 @@ const InputsState = ({ children, type = 'e&p' }) => {
       setValues, setValue,
       selectChangeHandler, setupSelect,
       checkboxChangeHandler,
+      setClearMiddleware,
+      changeMiddleware,
       values: state.values
     }}>
       { children }

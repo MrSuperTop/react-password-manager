@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Select from 'react-select';
 
 import { CredentialsContext } from '../../context/credentials/credentialsContext';
-import { InputsContext } from '../../context/inputs/inputsContext';
+import InputsContext from '../../context/inputs/inputsContext';
 import DataInputs from '../../components/DataInput/DataInputs';
 
 const options = [
@@ -12,11 +12,17 @@ const options = [
   }
 ];
 
+const defaultOption = options[0];
+
 const CreatePage = () => {
   const credentials = useContext(CredentialsContext);
   const inputs = useContext(InputsContext);
 
-  const [selected, setSelected] = useState(options[0]);
+  const [selected, setSelected] = useState(defaultOption);
+
+  useEffect(() => {
+    inputs.expandType([defaultOption.value]);
+  }, [])
 
   const selectChangeHandler = (data) => {
     setSelected(data);
@@ -25,7 +31,7 @@ const CreatePage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-  
+
     credentials.addItem({ ...inputs.values, type: selected.value });
     inputs.clear();
   };
@@ -39,7 +45,7 @@ const CreatePage = () => {
           value={selected}
           onChange={selectChangeHandler}
           options={options}
-          defaultValue={options[0]}
+          defaultValue={defaultOption}
         >
 
         </Select>

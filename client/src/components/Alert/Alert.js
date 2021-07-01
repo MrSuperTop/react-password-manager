@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import { AlertContext } from '../../context/alert/alertContext';
 import { CSSTransition } from 'react-transition-group';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle, faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationTriangle, faCheck, faTimes, faInfoCircle, faExclamation } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
-  danger: faExclamationTriangle,
+  danger: faExclamation,
   success: faCheck,
-  primary: faInfoCircle
+  primary: faInfoCircle,
+  warning: faExclamationTriangle
 }
 
 const Alert = () => {
@@ -18,7 +20,7 @@ const Alert = () => {
   return (
     <CSSTransition
       in={alert.shown}
-      timeout={300}
+      timeout={150}
       unmountOnExit
       classNames="alert"
     >
