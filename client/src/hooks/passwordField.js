@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import InputsContext from "../context/inputs/inputsContext";
+import { AlertContext } from '../context/alert/alertContext';
 
 const charSets = {
   lowercase: 'abcdefghijklmnopqrstuvwxyz',
@@ -10,6 +11,7 @@ const charSets = {
 
 const usePasswordField = () => {
   const inputs = useContext(InputsContext);
+  const alert = useContext(AlertContext);
 
   const choice = (array) => {
     return array[Math.ceil(Math.random() * array.length - 1)];
@@ -23,17 +25,32 @@ const usePasswordField = () => {
       uppercase,
       lowercase,
       specialSymbols,
-      numbers 
+      numbers,
+      useCustomCharset,
+      customCharset,
+      excludeFromCharset,
+      excludeSymbols
     } = values;
 
-    if (uppercase) charSet += charSets.uppercase;
-    if (lowercase) charSet += charSets.lowercase;
-    if (specialSymbols) charSet += charSets.specialSymbols;
-    if (numbers) charSet += charSets.numbers;
+    if (useCustomCharset && customCharset) {
+      charSet = customCharset
+    } else {
+      if (uppercase) charSet += charSets.uppercase;
+      if (lowercase) charSet += charSets.lowercase;
+      if (specialSymbols) charSet += charSets.specialSymbols;
+      if (numbers) charSet += charSets.numbers;
+    }
 
-    if (charSet) {
-      const length = Math.abs(Number.parseInt(passwordLength));
-  
+    if (excludeSymbols) {
+      charSet = charSet.split('').filter((item) => (
+        !excludeFromCharset.includes(item)
+      ));
+    }
+
+    if (charSet.length) {
+      let length = Math.abs(Number.parseInt(passwordLength));
+      length = length > 2048 ? 2048 : length;
+
       if (isNaN(length)) {
         alert.showWithTimeout('Invalid Password Length', 'warning');
         return '';

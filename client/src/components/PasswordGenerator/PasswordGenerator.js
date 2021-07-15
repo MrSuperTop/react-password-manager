@@ -15,14 +15,19 @@ const PasswordGenerator = ({ inputContainerRef, generatePassword }) => {
   const generator = useContext(GeneratorContext);
   const generatorRef = useRef();
 
+  useEffect(() => {
+    generator.setRef({ generatorRef, inputContainerRef });
+  }, [])
+
   const passwordField = usePasswordField();
   generatePassword = generatePassword || (
     () => passwordField.generate(inputs.values)
   );
 
-  useEffect(() => {
-    generator.setRef({ generatorRef, inputContainerRef });
-  }, [])
+  const resetSettings = () => {
+    inputs.reset('pass-gen');
+    passwordField.generate(inputs.initials['pass-gen']);
+  };
 
   const rangeInputHandler = (e) => {
     const value = e.target.value;
@@ -90,17 +95,50 @@ const PasswordGenerator = ({ inputContainerRef, generatePassword }) => {
           onChange={CheckBoxHandler}
         />
 
-      <Collapsable
-        id="more-info-collapsable"
-        text="More options..."
-      >
-        <FormCheckbox
-          label="Auto Regenerate Password"
-          id="auto-regenerate"
-          valueAttrName="autoRegenerate"
-          onChange={CheckBoxHandler}
-        />
-      </Collapsable>
+        <Collapsable
+          id="exclude-collapsable"
+          text="Char Set Exclude"
+        >
+          <FormCheckbox
+            label="Exclude From Charset"
+            id="exclude-symbols"
+            valueAttrName="excludeSymbols"
+            onChange={CheckBoxHandler}
+          />
+          <FormItem
+            disabled={!inputs.values.excludeSymbols}
+            valueAttrName="excludeFromCharset"
+            id="exclude-from-charset"
+            type="text"
+            placeholder="Symbols"
+          />
+        </Collapsable>
+
+        <Collapsable
+          id="more-info-collapsable"
+          text="More options..."
+        >
+          <FormCheckbox
+            label="Auto Regenerate Password"
+            id="auto-regenerate"
+            valueAttrName="autoRegenerate"
+            onChange={CheckBoxHandler}
+          />
+
+          <FormCheckbox
+            label="Use Custom Charset"
+            id="custom-charset-toggle"
+            valueAttrName="useCustomCharset"
+            onChange={CheckBoxHandler}
+          />
+          <FormItem
+            disabled={!inputs.values.useCustomCharset}
+            valueAttrName="customCharset"
+            id="custom-charset"
+            type="text"
+            placeholder="Char Set"
+          />
+        </Collapsable>
       </div>
 
       <div className="buttons-container">
@@ -109,6 +147,11 @@ const PasswordGenerator = ({ inputContainerRef, generatePassword }) => {
           className="btn btn-success"
           onClick={generatePassword}
         >Generate</button>
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={resetSettings}
+        >Reset</button>
         <div
           className="close-btn"
           onClick={generator.hide}

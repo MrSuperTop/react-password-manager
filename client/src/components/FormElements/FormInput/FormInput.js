@@ -2,7 +2,7 @@ import React, { useContext, useRef, useEffect } from 'react';
 import InputsContext from '../../../context/inputs/inputsContext';
 
 // TODO: Нормально ли ту запрашивать valueName или лучше сразу предавать хначение, может вообще нету смысла ничего запрашивать, а просто брать значение с id
-const FormItem = ({ children, valueAttrName, label, id, type, placeholder, notRequired, onChange, rangeObject }) => {
+const FormItem = ({ children, disabled, valueAttrName, label, id, type, placeholder, notRequired, onChange, rangeObject }) => {
   const inputs = useContext(InputsContext);
   const inputRef = useRef();
 
@@ -28,11 +28,13 @@ const FormItem = ({ children, valueAttrName, label, id, type, placeholder, notRe
         <input
           required
           ref={inputRef}
+          defaultValue=''
           value={inputs.values[valueAttrName] || ''}
           onChange={changeHandler}
           name={valueAttrName}
           id={id}
           type={type}
+          disabled={disabled || false}
           className="form-control"
           placeholder={placeholder}
         />

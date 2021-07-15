@@ -11,13 +11,18 @@ const initialStates = {
     email: '',
     password: ''
   },
+
   'pass-gen': {
     uppercase: true,
     lowercase: true,
     specialSymbols: false,
     numbers: true,
-    passwordLength: "16",
-    autoRegenerate: false
+    passwordLength: '16',
+    autoRegenerate: true,
+    customCharset: '',
+    useCustomCharset: false,
+    excludeFromCharset: '',
+    excludeSymbols: ''
   }
 }
 
@@ -29,6 +34,16 @@ const InputsState = ({ children }) => {
     initial: {}
   });
 
+  const reset = (typeName = '') => {
+    if (!typeName) {
+      return clear();
+    }
+
+    dispatch({
+      type: UPDATE_DATA,
+      payload: initialStates[typeName]
+    });
+  };
 
   const setValues = (values) => {
     dispatch({
@@ -111,7 +126,7 @@ const InputsState = ({ children }) => {
 
   const clear = () => {
     const middleware = state.clearMiddleware || (() => {})
-    
+
     middleware();
     dispatch({ type: CLEAR_DATA });
   };
@@ -122,13 +137,14 @@ const InputsState = ({ children }) => {
 
   return (
     <InputsContext.Provider value={{
-      changeHandler, clear, setType, expandType,
+      changeHandler, reset, clear, setType, expandType,
       setValues, setValue,
       selectChangeHandler, setupSelect,
       checkboxChangeHandler,
       setClearMiddleware,
       changeMiddleware,
-      values: state.values
+      values: state.values,
+      initials: initialStates
     }}>
       { children }
     </InputsContext.Provider>

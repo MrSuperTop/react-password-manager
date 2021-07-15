@@ -32,10 +32,6 @@ const GeneratorState = ({ children }) => {
   };
 
   const updatePostion = () => {
-    if (!state.refs) {
-      return setPosition({ top: 0, left: 0 });
-    }
-
     const dimentions = state.refs.inputContainer.getBoundingClientRect();
     let { top, left, width, height } = dimentions;
     top += height + 16;

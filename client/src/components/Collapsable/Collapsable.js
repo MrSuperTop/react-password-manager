@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 const Collapsable = ({ children, text, id }) => {
-
+  const conllapsableRef = useRef();
   const clickHandler = () => {
-    const icon = document.querySelector('.collapsable .chevron-icon');
+    const icon = conllapsableRef.current.children[0].children[0];
     icon.classList.toggle('upside-down');
   }
 
   return (
-    <div className="collapsable">
+    <div className="collapsable" ref={conllapsableRef}>
       <p
         className="collapsable-text"
         data-bs-toggle="collapse"
