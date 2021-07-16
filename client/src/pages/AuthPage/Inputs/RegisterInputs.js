@@ -14,13 +14,23 @@ const RegisterInputs = ({ formData, changeHandler }) => {
         onChange={changeHandler}
       />
       <input
-        id="passowrd-field"
+        id="password-field"
         required
         className="form-control"
         type="password"
         name="password"
         placeholder="Password"
         value={formData.password}
+        onChange={changeHandler}
+      />
+      <input
+        id="confirm-password-field"
+        required
+        className="form-control"
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        value={formData.confirmPassword}
         onChange={changeHandler}
       />
     </>

@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import usePasswordField from '../../hooks/passwordField';
+import usePasswordField from '../../hooks/passwordField.hook';
 
 import { UPDATE_DATA, CLEAR_DATA, SET_INITIAL, EXPAND_INITIAL, SET_CLEAR_MIDDLEWARE } from '../types';
 import InputsContext from './inputsContext';
@@ -92,6 +92,11 @@ const InputsState = ({ children }) => {
 
       const password = passwordField.generate(updated);
       dispatch({ type: UPDATE_DATA, payload: { password } });
+    }
+
+    if (['customCharset', 'excludeFromCharset'].includes(name)) {
+      const newValue = Array.from(new Set(e.target.value)).join('');
+      dispatch({ type: UPDATE_DATA, payload: { [name]: newValue } });
     }
   };
 

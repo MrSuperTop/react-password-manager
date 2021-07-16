@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { GeneratorContext } from '../../context/generator/generatorContext';
+import GeneratorContext from '../../context/generator/generatorContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +8,7 @@ import FormItem from '../FormElements/FormInput/FormInput';
 import InputsContext from '../../context/inputs/inputsContext';
 import FormCheckbox from '../FormElements/FormCheckbox/FormCheckbox';
 import Collapsable from '../Collapsable/Collapsable';
-import usePasswordField from '../../hooks/passwordField';
+import usePasswordField from '../../hooks/passwordField.hook';
 
 const PasswordGenerator = ({ inputContainerRef, generatePassword }) => {
   const inputs = useContext(InputsContext);

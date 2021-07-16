@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import Loader from '../../components/Loader/Loader';
-import { CredentialsContext } from '../../context/credentials/credentialsContext';
+import CredentialsContext from '../../context/credentials/credentialsContext';
 import InputsContext from '../../context/inputs/inputsContext';
 import DataInputs from '../../components/DataInput/DataInputs';
-import CredentialsList from '../../components/CredentialsList/CredentialsList';
-import { AlertContext } from '../../context/alert/alertContext';
+import AlertContext from '../../context/alert/alertContext';
 
 const EditPage = () => {
   const history = useHistory();
@@ -36,7 +35,7 @@ const EditPage = () => {
 
   const undoChanges = () => {
     inputs.clear()
-    alert.showWithTimeout('Changes where undone', 'warning')
+    alert.show('Changes where undone', 'warning')
   }
 
   useEffect(() => {

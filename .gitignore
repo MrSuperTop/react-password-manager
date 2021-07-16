@@ -2,4 +2,5 @@
 
 /client/build
 /server/.env.local
+/client/.env.local
 .vscode

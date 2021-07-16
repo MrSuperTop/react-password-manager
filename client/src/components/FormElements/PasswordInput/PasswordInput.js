@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 
 import PasswordGenerator from '../../PasswordGenerator/PasswordGenerator';
-import { GeneratorContext } from '../../../context/generator/generatorContext';
+import GeneratorContext from '../../../context/generator/generatorContext';
 
 // TODO: Нормально ли ту запрашивать valueName или лучше сразу предавать хначение, может вообще нету смысла ничего запрашивать, а просто брать значение с id
 const PasswordInput = ({ children, valueAttrName, label, id, placeholder, notRequired, toggable, noGenerator }) => {

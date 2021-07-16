@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Select from 'react-select';
 
-import { CredentialsContext } from '../../context/credentials/credentialsContext';
+import CredentialsContext from '../../context/credentials/credentialsContext';
 import InputsContext from '../../context/inputs/inputsContext';
 import DataInputs from '../../components/DataInput/DataInputs';
 

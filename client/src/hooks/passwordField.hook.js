@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import InputsContext from "../context/inputs/inputsContext";
-import { AlertContext } from '../context/alert/alertContext';
+import AlertContext from '../context/alert/alertContext';
+import useField from "./field.hook";
 
 const charSets = {
   lowercase: 'abcdefghijklmnopqrstuvwxyz',
@@ -10,7 +11,7 @@ const charSets = {
 };
 
 const usePasswordField = () => {
-  const inputs = useContext(InputsContext);
+  const passwordField = useField('password');
   const alert = useContext(AlertContext);
 
   const choice = (array) => {
@@ -52,7 +53,7 @@ const usePasswordField = () => {
       length = length > 2048 ? 2048 : length;
 
       if (isNaN(length)) {
-        alert.showWithTimeout('Invalid Password Length', 'warning');
+        alert.show('Invalid Password Length', 'warning');
         return '';
       }
   
@@ -61,7 +62,7 @@ const usePasswordField = () => {
       }
     }
 
-    if (inputs) inputs.setValue('password', result);
+    if (passwordField) passwordField.set(result);
     return result;
   };
 

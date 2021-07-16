@@ -1,9 +1,8 @@
-import React, { useReducer, useEffect, useContext } from 'react';
+import React, { useReducer, useEffect } from 'react';
 
 import { SET_VISIBILITY, SET_REF, SET_POSITION } from '../types';
 import { generatorReducer } from './generatorReducer';
-import { GeneratorContext } from './generatorContext';
-import InputsContext from '../inputs/inputsContext';
+import GeneratorContext from './generatorContext';
 
 const GeneratorState = ({ children }) => {
   const [state, dispatch] = useReducer(generatorReducer, {
@@ -32,12 +31,13 @@ const GeneratorState = ({ children }) => {
   };
 
   const updatePostion = () => {
-    const dimentions = state.refs.inputContainer.getBoundingClientRect();
-    let { top, left, width, height } = dimentions;
-    top += height + 16;
-    left += (width / 2 - state.refs.generator.clientWidth / 2);
-
-    setPosition({ top, left });
+    try {
+      const dimentions = state.refs.inputContainer.getBoundingClientRect();
+      let { top, left, width, height } = dimentions;
+      top += height + 16;
+      left += (width / 2 - state.refs.generator.clientWidth / 2);
+      setPosition({ top, left });
+    } catch (error) {}
   }
 
   const hide = () => {

@@ -26,16 +26,18 @@
   .input-container {
     input {
       text-align: center;
+      border-radius: 0;
     }
 
-    input:nth-child(1) {
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
+    input:first-child {
+      border-top-right-radius: .25rem;
+      border-top-left-radius: .25rem;
+      
     }
 
-    input:nth-child(2) {
-      border-top-right-radius: 0;
-      border-top-left-radius: 0;
+    input:last-child {
+      border-bottom-right-radius: .25rem;
+      border-bottom-left-radius: .25rem;
     }
   }
 

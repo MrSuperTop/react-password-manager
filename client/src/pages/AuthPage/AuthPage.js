@@ -7,16 +7,19 @@ import { faUserLock } from '@fortawesome/free-solid-svg-icons';
 import { logIn, register } from '../../api';
 import RegisterInputs from './Inputs/RegisterInputs';
 import LoginInputs from './Inputs/LoginInputs';
-import { AuthContext } from '../../context/auth/authContext';
+import AuthContext from '../../context/auth/authContext';
+
+const initialState = {
+  email: '',
+  password: '',
+  confirmPassword: ''
+};
 
 const AuthPage = () => {
   const history = useHistory();
   const auth = useContext(AuthContext);
   const [isRegister, setIsRegister] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [formData, setFormData] = useState(initialState);
 
   const formTypeString = isRegister ? 'Register' : 'Log In';
   const toggleText = isRegister ? [
@@ -27,7 +30,11 @@ const AuthPage = () => {
     e.preventDefault();
 
     if (isRegister) {
-      auth.register(formData, history);
+      const success = auth.register(formData);
+      if (success) {
+        setIsRegister(false);
+        setFormData(initialState);
+      }
     } else {
       auth.logIn(formData, history);
     }

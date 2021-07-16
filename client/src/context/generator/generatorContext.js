@@ -1,3 +1,5 @@
 import { createContext } from "react";
 
-export const GeneratorContext = createContext();
+const GeneratorContext = createContext();
+
+export default GeneratorContext;

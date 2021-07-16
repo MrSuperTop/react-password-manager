@@ -1,10 +1,10 @@
 import React, { useReducer, useEffect, useContext } from 'react';
 
 import { logIn as logInAPI, register as registerAPI } from '../../api';
-import { AlertContext } from '../alert/alertContext';
-import { CredentialsContext } from '../credentials/credentialsContext';
+import AlertContext from '../alert/alertContext';
+import CredentialsContext from '../credentials/credentialsContext';
 import { LOG_IN, LOG_OUT, IMPORT_DATA } from '../types';
-import { AuthContext } from './authContext';
+import AuthContext from './authContext';
 import { authReducer } from './authReducer';
 
 const keyName = 'userData';
@@ -26,9 +26,21 @@ const AuthState = ({ children }) => {
     }
   }, []);
 
-  const register = async (formData, history) => {
-    registerAPI(formData);
-    history.push('/home');
+  const register = async (formData) => {
+    const { password, confirmPassword } = formData;
+    if (password !== confirmPassword) {
+      return alert.show('Passwords Don\'t Match!', 'warning');
+    }
+
+    const { status, data } = await registerAPI(formData);
+
+    if (status === 201) {
+      alert.show('You have registered successfully!', 'success');
+    } else {
+      alert.show(data.message, 'danger');
+    }
+
+    return status === 201;
   }
 
   const logIn = async (formData, history) => {
@@ -42,7 +54,7 @@ const AuthState = ({ children }) => {
       type: LOG_IN,
       payload: neededData
     });
-    alert.showWithTimeout(data.message, 'success');
+    alert.show(data.message, 'success');
 
     localStorage.setItem(keyName, JSON.stringify(neededData));
 
@@ -51,7 +63,7 @@ const AuthState = ({ children }) => {
 
   const logOut = () => {
     dispatch({ type: LOG_OUT });
-    alert.showWithTimeout('You have just logged out', 'danger');
+    alert.show('You have just logged out', 'danger');
 
     credentials.clearData();
     localStorage.removeItem(keyName);

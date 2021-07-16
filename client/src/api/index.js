@@ -1,4 +1,5 @@
 import axios from 'axios';
+import useUser from '../hooks/user.hook';
 
 const API = axios.create({
   baseUrl: 'https://localhost:5000/api',
@@ -20,9 +21,9 @@ const API = axios.create({
 
 API.interceptors.request.use((req) => {
   // TODO: Может в хук?
-  const user = JSON.parse(localStorage.getItem('userData'))
-  if (user) {
-    req.headers.Authorization = `Bearer ${user.token}`;
+  const { token } = useUser();
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
   }
 
   return req;

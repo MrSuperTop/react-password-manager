@@ -1,9 +1,21 @@
-import bcrypt from 'bcryptjs';
-import { json } from 'express';
 import { validationResult } from 'express-validator';
+import CryptoJS from 'crypto-js';
 
 import Credentials from '../models/credentials.model.js';
-import User from '../models/user.models.js';
+
+const crypt = (data) => {
+  return CryptoJS.AES.encrypt(
+    data,
+    process.env.CRYPTO_SECRET
+  );
+};
+
+const decrypt = (data) => {
+  return CryptoJS.AES.decrypt(
+    data,
+    process.env.CRYPTO_SECRET
+  ).toString(CryptoJS.enc.Utf8);
+};
 
 export const addItem = async (req, res) => {
   try {
@@ -17,13 +29,13 @@ export const addItem = async (req, res) => {
 
     const { email, password, name, type } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const crypedPassword = crypt(password);
 
     // TODO: Что тут с паролем делать?
     const credentials = new Credentials({
       name,
       email,
-      password: hashedPassword,
+      password: crypedPassword.toString(),
       type
     });
 
@@ -46,6 +58,11 @@ export const addItem = async (req, res) => {
 export const getCredentials = async (req, res) => {
   try {
     const data = req.user.credentials;
+
+    for (let i = 0; i < data.length; i++) {
+      data[i].password = decrypt(data[i].password);
+    }
+
     res.json({
       data
     });
@@ -79,7 +96,9 @@ export const deleteOne = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const { id } = req.params;
+
     const item = await req.user.credentials.id(id);
+    item.password = decrypt(item.password);
 
     res.json({
       item
@@ -113,13 +132,17 @@ export const editItem = async (req, res) => {
     }
 
     item = item.set(req.body);
+
+    item.password = crypt(item.password);
+
     await req.user.save();
 
     res.json({
       message: 'Updated successfully',
-      item
+      item: { ...item, password: req.body.password }
     });
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       message: 'Wasn\'t able to edit, try again later...',
       error

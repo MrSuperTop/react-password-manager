@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { AlertContext } from '../../context/alert/alertContext';
+import AlertContext from '../../context/alert/alertContext';
 import { CSSTransition } from 'react-transition-group';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

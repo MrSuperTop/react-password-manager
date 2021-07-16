@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faClipboard, faPenAlt } from '@fortawesome/free-solid-svg-icons';
-import { AlertContext } from '../../../context/alert/alertContext';
+import AlertContext from '../../../context/alert/alertContext';
 
 const CredentialsItem = ({ data, deleteItem, editItem }) => {
   const alert = useContext(AlertContext);
@@ -15,7 +15,7 @@ const CredentialsItem = ({ data, deleteItem, editItem }) => {
       string = element.getAttribute('data-to-copy');
     }
 
-    alert.showWithTimeout(`Copied to your clipboard! "${string}"`)
+    alert.show(`Copied to your clipboard! "${string}"`)
     await navigator.clipboard.writeText(string);
   };
 
@@ -46,7 +46,7 @@ const CredentialsItem = ({ data, deleteItem, editItem }) => {
           </div>
           <div
             className="action-btn btn btn-success"
-            // TODO: Спросить про названия кастомных аттрибутов в jsx
+
             data-to-copy={data.password}
             onClick={copyData}
           >

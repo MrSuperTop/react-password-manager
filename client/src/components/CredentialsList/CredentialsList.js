@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { CredentialsContext } from '../../context/credentials/credentialsContext';
+import CredentialsContext from '../../context/credentials/credentialsContext';
 import { useHistory } from 'react-router-dom';
 
 import Loader from '../Loader/Loader';

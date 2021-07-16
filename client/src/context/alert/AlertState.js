@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 
 import { SHOW_ALERT, HIDE_ALERT } from '../types';
-import { AlertContext } from './alertContext';
+import AlertContext from './alertContext';
 import { alertReducer } from './alertReducer';
 
 
@@ -12,7 +12,7 @@ const AlertState = ({ children }) => {
     shown: false
   });
 
-  const show = (
+  const showToggable = (
     text = '',
     type = 'primary',
     closable = true,
@@ -29,19 +29,19 @@ const AlertState = ({ children }) => {
     dispatch({ type: HIDE_ALERT });
   }
 
-  const showWithTimeout = (
+  const show = (
     text = '',
     type = 'primary',
     timeout = 2.5,
     closable = false
   ) => {
-    show(text, type, closable);
+    showToggable(text, type, closable);
     setTimeout(() => hide(), timeout * 1000);
   };
 
   return (
     <AlertContext.Provider value={{
-      show, hide, showWithTimeout,
+      showToggable, hide, show,
       ...state
     }}>
       { children }

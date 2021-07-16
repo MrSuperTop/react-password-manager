@@ -1,9 +1,9 @@
 import React, { useReducer, useContext } from 'react';
 
 import { fetchCredentials, deleteOne as deleteOneAPI, addOne as addOneAPI, getOne as getOneAPI, editOne as editOneAPI } from '../../api';
-import { AlertContext } from '../alert/alertContext';
+import AlertContext from '../alert/alertContext';
 import { FETCH_CREDENTIALS, SET_LOADING, ADD_ONE, DELETE_ONE, GET_ONE, UPDATE_ONE, CLEAR_DATA } from '../types';
-import { CredentialsContext } from './credentialsContext';
+import CredentialsContext from './credentialsContext';
 import { credentialsReducer } from './credentialsReducer';
 
 const CredentialsState = ({ children }) => {
@@ -35,7 +35,7 @@ const CredentialsState = ({ children }) => {
   const addItem = async (formData) => {
     const { data } = await addOneAPI(formData);
 
-    alert.showWithTimeout(data.message, 'success', 2.5, true);
+    alert.show(data.message, 'success', 2.5, true);
     dispatch({ type: ADD_ONE, payload: formData });
   };
 
@@ -44,7 +44,7 @@ const CredentialsState = ({ children }) => {
     // TODO: Кнопку для отмены
     const { data: { itemId, message } } = await deleteOneAPI(id);
 
-    alert.showWithTimeout(message, 'danger')
+    alert.show(message, 'danger')
     dispatch({ type: DELETE_ONE, payload: itemId });
   };
 
@@ -58,7 +58,7 @@ const CredentialsState = ({ children }) => {
   const editItem = async (id, formData) => {
     const { data: { item, message } } = await editOneAPI(id, formData);
 
-    alert.showWithTimeout(message, 'primary')
+    alert.show(message, 'primary')
     dispatch({ type: UPDATE_ONE, payload: item });
   }
 

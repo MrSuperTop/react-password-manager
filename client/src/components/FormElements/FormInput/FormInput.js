@@ -28,7 +28,6 @@ const FormItem = ({ children, disabled, valueAttrName, label, id, type, placehol
         <input
           required
           ref={inputRef}
-          defaultValue=''
           value={inputs.values[valueAttrName] || ''}
           onChange={changeHandler}
           name={valueAttrName}
