@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "/api"
+  from = "/api/*"
   to = "https://password-manager-react.herokuapp.com/api"
   status = 200
   force = true
