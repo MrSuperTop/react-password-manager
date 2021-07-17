@@ -1,35 +1,21 @@
 import axios from 'axios';
 import useUser from '../hooks/user.hook';
 
-console.log(process.env.REACT_APP_API_URL)
-
 const API = axios.create({
-  baseUrl: "https://password-manager-react.herokuapp.com/api",
-  transformResponse: [function (data) {
-    let errorMessage = 'Some invalid data was passed. Errors:\n';
-    data = JSON.parse(data)
-
-    if (data.errors) {
-      data.errors.map((item) => {
-        errorMessage += `${item.msg}\n`;
-      });
-
-      console.error(errorMessage);
-    }
-
-    return data;
-  }]
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000'
 });
 
 API.interceptors.request.use((req) => {
-  // TODO: Может в хук?
   const { token } = useUser();
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
 
+  console.log(req.headers.Authorization)
+
   return req;
 })
+
 
 // Auth
 export const logIn = async (formData) => await API.post('/api/auth/login', formData);
