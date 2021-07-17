@@ -142,7 +142,6 @@ export const editItem = async (req, res) => {
       item: { ...item, password: req.body.password }
     });
   } catch (error) {
-    console.log(error)
     res.status(500).json({
       message: 'Wasn\'t able to edit, try again later...',
       error

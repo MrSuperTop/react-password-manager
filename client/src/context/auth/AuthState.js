@@ -1,28 +1,29 @@
 import React, { useReducer, useEffect, useContext } from 'react';
+import decode from 'jwt-decode';
 
-import { logIn as logInAPI, register as registerAPI } from '../../api';
+import * as api from '../../api';
 import AlertContext from '../alert/alertContext';
 import CredentialsContext from '../credentials/credentialsContext';
 import { LOG_IN, LOG_OUT, IMPORT_DATA } from '../types';
 import AuthContext from './authContext';
 import { authReducer } from './authReducer';
+import useUser from '../../hooks/user.hook';
 
 const keyName = 'userData';
 
 const AuthState = ({ children }) => {
   const alert = useContext(AlertContext);
   const credentials = useContext(CredentialsContext);
+  const { user } = useUser();
   const [state, dispatch] = useReducer(authReducer, {
     token: null,
     userId: null
   });
 
   useEffect(() => {
-    // TODO: Check if the token is still valid
-    const data = JSON.parse(localStorage.getItem(keyName));
-    if (data) {
-      // HERE
-      dispatch({ type: IMPORT_DATA, payload: data })
+    console.log(user)
+    if (user) {
+      dispatch({ type: IMPORT_DATA, payload: user })
     }
   }, []);
 
@@ -32,7 +33,7 @@ const AuthState = ({ children }) => {
       return alert.show('Passwords Don\'t Match!', 'warning');
     }
 
-    const { status, data } = await registerAPI(formData);
+    const { status, data } = await api.register(formData);
 
     if (status === 201) {
       alert.show('You have registered successfully!', 'success');
@@ -41,13 +42,14 @@ const AuthState = ({ children }) => {
     }
 
     return status === 201;
-  }
+  };
 
   const logIn = async (formData, history) => {
-    const { data } = await logInAPI(formData);
+    const { data } = await api.logIn(formData);
     const neededData = {
       token: data.token,
-      id: data.userId
+      id: data.userId,
+      email: data.email
     };
 
     dispatch({
@@ -59,19 +61,28 @@ const AuthState = ({ children }) => {
     localStorage.setItem(keyName, JSON.stringify(neededData));
 
     history.push('/home');
-  }
+  };
 
-  const logOut = () => {
+  const logOut = (history, message = 'You have just logged out') => {
     dispatch({ type: LOG_OUT });
-    alert.show('You have just logged out', 'danger');
+
+    alert.show(message, 'danger');
 
     credentials.clearData();
     localStorage.removeItem(keyName);
+    history.push('/auth');
+  };
+
+  const expiresIn = () => {
+    const decodedToken = decode(state.token);
+
+    return decodedToken.exp * 1000;
   }
 
   return (
     <AuthContext.Provider value={{
       logIn, register, logOut,
+      expiresIn,
       user: state
     }}>
       { children }

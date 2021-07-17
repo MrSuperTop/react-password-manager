@@ -60,7 +60,7 @@ export const logIn = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id },
+      { id: user.id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -68,7 +68,8 @@ export const logIn = async (req, res) => {
     res.json({
       token,
       message: 'You have logged in successfully',
-      userId: user.id
+      userId: user.id,
+      email
     });
   } catch (error) {
     res.status(500).json({

@@ -18,7 +18,7 @@ const useField = (fieldName) => {
 
   return {
     set, clear, undo,
-    value: inputs.values[fieldName]
+    value: inputs?.values[fieldName]
   };
 }
 

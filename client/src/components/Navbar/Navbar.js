@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
 
-import AuthContext from '../../context/auth/authContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
-  const auth = useContext(AuthContext);
   const location = useLocation();
 
   useEffect(() => {
@@ -34,12 +33,13 @@ const Navbar = () => {
         <li className="link">
           <Link to="/create">Add</Link>
         </li>
-        <button
-          className="btn btn-danger"
-          onClick={auth.logOut}
-        >
-          Log Out
-        </button>
+        <li className="link">
+          <Link to="/me">
+            <div className="avatar">
+              <FontAwesomeIcon icon={faUserAlt} />
+            </div>
+          </Link>
+        </li>
       </ul>
     </nav>
   );

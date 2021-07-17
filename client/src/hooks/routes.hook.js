@@ -10,6 +10,7 @@ import Alert from '../components/Alert/Alert';
 import AboutPage from '../pages/AboutPage/AboutPage';
 import CreatePage from '../pages/CreatePage/CreatePage';
 import EditPage from '../pages/EditPage/EditPage';
+import UserPage from '../pages/UserPage/UserPage';
 
 const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -28,6 +29,11 @@ const useRoutes = (isAuthenticated) => {
           <Route path="/edit/:id">
             <InputsState>
               <EditPage />
+            </InputsState>
+          </Route>
+          <Route path="/me">
+            <InputsState>
+              <UserPage />
             </InputsState>
           </Route>
   
