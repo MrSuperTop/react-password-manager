@@ -7,6 +7,7 @@ import { getCredentials, addItem, deleteOne, getOne, editItem } from '../control
 const router = Router();
 const validValues = ['e&p'];
 
+// ! NAME VALIDATION
 const credentialsCheck = [
   check('email', 'Invalid email').isEmail(),
   check('email', 'Please provide an email').not().isEmpty(),

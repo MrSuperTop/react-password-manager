@@ -38,7 +38,7 @@ const useRoutes = (isAuthenticated) => {
           </Route>
   
           <Route path="/about" component={AboutPage} />
-          <Redirect to="/home"/>
+          {/* <Redirect to="/home"/> */}
         </Switch>
       </>
     );

@@ -4,7 +4,7 @@ import useUser from '../hooks/user.hook';
 console.log(process.env.REACT_APP_API_URL)
 
 const API = axios.create({
-  baseUrl: process.env.REACT_APP_API_URL || 'https://localhost:5000/api',
+  baseUrl: "https://password-manager-react.herokuapp.com/api",
   transformResponse: [function (data) {
     let errorMessage = 'Some invalid data was passed. Errors:\n';
     data = JSON.parse(data)
