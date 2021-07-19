@@ -38,7 +38,8 @@ const useRoutes = (isAuthenticated) => {
           </Route>
   
           <Route path="/about" component={AboutPage} />
-          {/* <Redirect to="/home"/> */}
+          <Redirect from="/" to="/home" />
+
         </Switch>
       </>
     );
@@ -52,7 +53,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path="/auth" exact>
           <AuthPage />
         </Route>
-        <Redirect to="/auth" />
+        <Redirect from="/" to="/auth" />
       </Switch>
     </>
   );

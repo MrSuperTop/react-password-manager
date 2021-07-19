@@ -10,7 +10,7 @@ const icons = {
   success: faCheck,
   primary: faInfoCircle,
   warning: faExclamationTriangle
-}
+};
 
 const Alert = () => {
   const alert = useContext(AlertContext);

@@ -10,7 +10,7 @@ import GeneratorContext from '../../../context/generator/generatorContext';
 // TODO: Нормально ли ту запрашивать valueName или лучше сразу предавать хначение, может вообще нету смысла ничего запрашивать, а просто брать значение с id
 const PasswordInput = ({ children, valueAttrName, label, id, placeholder, notRequired, toggable, noGenerator }) => {
   const inputs = useContext(InputsContext);
-  const generator = useContext(GeneratorContext)
+  const generator = useContext(GeneratorContext);
 
   const [showPassword, setShowPassword] = useState(false);
 

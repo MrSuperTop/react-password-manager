@@ -6,7 +6,6 @@ import FormSelect from '../../FormElements/FormSelect/FormSelect';
 import FormItem from '../../FormElements/FormInput/FormInput';
 import PasswordInput from '../../FormElements/PasswordInput/PasswordInput';
 import { getUserEmails } from '../../../api';
-import Loader from '../../Loader/Loader';
 import GeneratorState from '../../../context/generator/GeneratorState';
 import InputsContext from '../../../context/inputs/inputsContext';
 
@@ -18,19 +17,36 @@ const EmailAndPassword = () => {
 
   useEffect(() => {
     getUserEmails().then(({ data }) => {
-      setSelectEmails(data.emails.map((item) => ({
-        value: item,
-        label: item
-      })));
+      const options = [];
+
+      for (let i = 0; i < data.length; i++) {
+        let item = {
+          value: data[i],
+          label: data[i]
+        };
+
+        if (selectEmails.includes(item)) continue;
+
+        options.push(item);
+      }
+
+      setSelectEmails((prev) => {
+        return [
+          ...prev,
+          ...options
+        ];
+      });
     });
 
     if (inputs.values?.email) {
       const value = inputs.values?.email;
+
       setDefaultOption({ value, label: value });
-    }
+      setSelectEmails((prev) => [...prev, { value, label: value }]);
+    };
   }, []);
 
-  if (!selectEmails) return <Loader />;
+  // if (!selectEmails.length) return <Loader />;
 
   return (
     <>

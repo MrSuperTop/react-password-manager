@@ -17,7 +17,7 @@ const PasswordGenerator = ({ inputContainerRef, generatePassword }) => {
 
   useEffect(() => {
     generator.setRef({ generatorRef, inputContainerRef });
-  }, [])
+  }, []);
 
   const passwordField = usePasswordField();
   generatePassword = generatePassword || (

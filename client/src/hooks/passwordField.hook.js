@@ -1,12 +1,11 @@
 import { useContext } from "react";
-import InputsContext from "../context/inputs/inputsContext";
 import AlertContext from '../context/alert/alertContext';
 import useField from "./field.hook";
 
 const charSets = {
   lowercase: 'abcdefghijklmnopqrstuvwxyz',
   uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-  specialSymbols: `!"#$%&'()*+,-./:;<=>?@[\]^_\\{|}~`,
+  specialSymbols: `!"#$%&'()*+,-./:;<=>?@[]^_\\{|}~`,
   numbers: '0123456789'
 };
 
@@ -16,7 +15,7 @@ const usePasswordField = () => {
 
   const choice = (array) => {
     return array[Math.ceil(Math.random() * array.length - 1)];
-  }
+  };
 
   const generate = (values) => {
     let charSet = '';
@@ -34,7 +33,7 @@ const usePasswordField = () => {
     } = values;
 
     if (useCustomCharset && customCharset) {
-      charSet = customCharset
+      charSet = customCharset;
     } else {
       if (uppercase) charSet += charSets.uppercase;
       if (lowercase) charSet += charSets.lowercase;

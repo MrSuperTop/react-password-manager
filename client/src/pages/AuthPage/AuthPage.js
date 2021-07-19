@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserLock } from '@fortawesome/free-solid-svg-icons';
 
-import { logIn, register } from '../../api';
 import RegisterInputs from './Inputs/RegisterInputs';
 import LoginInputs from './Inputs/LoginInputs';
 import AuthContext from '../../context/auth/authContext';
@@ -24,7 +23,7 @@ const AuthPage = () => {
   const formTypeString = isRegister ? 'Register' : 'Log In';
   const toggleText = isRegister ? [
     'Have an account?', 'Login!'
-  ] : ['Don\'t have an account?', 'Register!']
+  ] : ['Don\'t have an account?', 'Register!'];
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -46,7 +45,7 @@ const AuthPage = () => {
 
     setFormData((prev) => (
       {...prev, [name]: value}
-    ))
+    ));
   };
 
   const toggleMode = () => [

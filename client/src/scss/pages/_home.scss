@@ -1,5 +1,8 @@
 @use '../variables/other' as vars;
 
+$shown-bg: #212529;
+$hidden-bg: lighten($shown-bg, 20%);
+
 .button-container {
   display: flex;
   align-items: center;
@@ -63,19 +66,68 @@
       }
     }
 
-
     .data-item {
       margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
 
+      .data-item__buttons {
+        display: flex;
+        align-items: center;
+      }
+
       .action-btn {
-        margin-left: 1.5rem;
+        text-align: center;
+        margin-left: 0.5rem;
+
+        svg {
+          transition: vars.$trasition-duration;
+
+          &.animating {
+            animation: iconChange .3s ease-in;
+          }
+
+          @keyframes iconChange {
+            0% {
+              opacity: 1;
+              transform: translateX(0%);
+            }
+            50%  {
+              opacity: 0;
+              transform: translateX(100%);
+            }
+            100% {
+              opacity: 1;
+              transform: translateX(0%);
+            }
+          }
+        }
+
+        &:first-child {
+          margin-left: 1.25rem;
+        }
       }
 
       &:last-child {
         margin-bottom: 0;
+      }
+
+      .data-content {
+        margin-top: 0.25rem;
+        transition: vars.$trasition-duration;
+
+        &.hidden {
+          color: $hidden-bg;
+          cursor: wait;
+          user-select: none;
+          border-radius: vars.$border-radius * 0.5;
+          background-color: $hidden-bg !important;
+        }
+
+        &.visible {
+          color: #fff;
+        }
       }
     }
 

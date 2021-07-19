@@ -1,10 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faClipboard, faPenAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faClipboard, faPenAlt, faEye, faLockOpen, faLock } from '@fortawesome/free-solid-svg-icons';
 import AlertContext from '../../../context/alert/alertContext';
+import useShowButton from '../../../hooks/showButton.hook';
+import useAnimatedIcon from '../../../hooks/animatedIcon.hook';
 
 const CredentialsItem = ({ data, deleteItem, editItem }) => {
   const alert = useContext(AlertContext);
+  const passwordRef = useRef();
+  const buttonRef = useRef();
+  const [buttonIcon, setButtonIcon] = useAnimatedIcon(faEye, .3, buttonRef);
+  const showButton = useShowButton(passwordRef, .5, setButtonIcon);
 
   const copyData = async (e) => {
     let element = e.target;
@@ -15,7 +21,7 @@ const CredentialsItem = ({ data, deleteItem, editItem }) => {
       string = element.getAttribute('data-to-copy');
     }
 
-    alert.show(`Copied to your clipboard! "${string}"`)
+    alert.show(`Copied to your clipboard! "${string}"`);
     await navigator.clipboard.writeText(string);
   };
 
@@ -42,15 +48,42 @@ const CredentialsItem = ({ data, deleteItem, editItem }) => {
         <div className="data-item">
           <div className="data-item__text">
             <h6>Password</h6>
-            <p className="data-content">{data.password}</p>
+            <p
+              className="data-content hidden"
+              ref={passwordRef}
+              onMouseEnter={() => showButton.showData(1)}
+              onMouseLeave={showButton.hideData}
+            >{data.password}</p>
           </div>
-          <div
-            className="action-btn btn btn-success"
+          <div className="data-item__buttons">
+            <div
+              ref={buttonRef}
+              className="action-btn btn btn-primary"
+              onMouseEnter={showButton.showData}
+              onMouseLeave={showButton.hideData}
+              onClick={() => {
+                if (!showButton.shown || showButton.shown && showButton.blockEvents) {
+                  // Showing before the timeout
+                  showButton.toggleBlockEvents();
+                  showButton.toggleShown();
+                  clearTimeout(showButton.timeoutId);
+                } else if (showButton.shown) {
+                  // Locking the visiblity when shown and clicked
+                  showButton.toggleBlockEvents();
+                  setButtonIcon(!showButton.blockEvents ? faLockOpen : faLock);
+                }
+              }}
+            >
+              <FontAwesomeIcon icon={buttonIcon}/>
+            </div>
+            <div
+              className="action-btn btn btn-success"
 
-            data-to-copy={data.password}
-            onClick={copyData}
-          >
-            <FontAwesomeIcon icon={faClipboard}/>
+              data-to-copy={data.password}
+              onClick={copyData}
+            >
+              <FontAwesomeIcon icon={faClipboard}/>
+            </div>
           </div>
         </div>
       </div>

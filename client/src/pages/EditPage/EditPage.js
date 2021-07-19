@@ -13,10 +13,18 @@ const EditPage = () => {
   const inputs = useContext(InputsContext);
   const credentials = useContext(CredentialsContext);
 
+  const [data, setData] = useState(null);
+
   const { id } = useParams();
 
   useEffect(() => {
-    credentials.fetchOne(id);
+    credentials.fetchOne(id).then((data) => {
+      setData(data);
+
+      const { email, password, name } = data;
+      inputs.setValues({ email, password, name });
+      inputs.expandType(['pass-gen']);
+    });
   }, []);
 
   const submitHandler = (e) => {
@@ -31,25 +39,16 @@ const EditPage = () => {
     credentials.deleteItem(id).then(() => {
       history.push('/home');
     });
-  }
+  };
 
   const undoChanges = () => {
-    inputs.clear()
-    alert.show('Changes where undone', 'warning')
+    inputs.clear();
+    alert.show('Changes where undone', 'warning');
+  };
+
+  if (credentials.loading || !Object.keys(inputs.values).length) {
+    return <Loader />;
   }
-
-  useEffect(() => {
-    const { email, password, name } = credentials.singleItem
-
-    inputs.setValues({
-      email, password, name
-    });
-  }, [credentials.singleItem]);
-
-  // TODO: Как это скоротить и куда-то запихнкуть
-  if (credentials.loading) return <Loader />
-
-  const data = credentials.singleItem;
 
   return (
     <div className="container edit-container">

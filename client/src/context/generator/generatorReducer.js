@@ -8,7 +8,7 @@ const handlers = {
       return {
         ...accumulator,
         [attributeName]: item.current
-      }
+      };
     }, Object.values(payload)[0].current);
 
     // FIX_ME: slice the object properly

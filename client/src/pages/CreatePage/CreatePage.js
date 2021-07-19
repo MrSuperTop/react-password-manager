@@ -22,7 +22,7 @@ const CreatePage = () => {
 
   useEffect(() => {
     inputs.expandType([defaultOption.value]);
-  }, [])
+  }, []);
 
   const selectChangeHandler = (data) => {
     setSelected(data);

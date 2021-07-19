@@ -38,14 +38,14 @@ const GeneratorState = ({ children }) => {
       left += (width / 2 - state.refs.generator.clientWidth / 2);
       setPosition({ top, left });
     } catch (error) {}
-  }
+  };
 
   const hide = () => {
-    dispatch({ type: SET_VISIBILITY, payload: false })
+    dispatch({ type: SET_VISIBILITY, payload: false });
   };
 
   const setPosition = (position) => {
-    dispatch({ type: SET_POSITION, payload: position })
+    dispatch({ type: SET_POSITION, payload: position });
   };
 
   return (

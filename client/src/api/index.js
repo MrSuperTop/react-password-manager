@@ -9,12 +9,10 @@ API.interceptors.request.use((req) => {
   const { token } = useUser();
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
-  }
-
-  console.log(req.headers.Authorization)
+  };
 
   return req;
-})
+});
 
 
 // Auth

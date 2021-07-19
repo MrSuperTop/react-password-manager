@@ -23,11 +23,11 @@ const AlertState = ({ children }) => {
     if (timeout !== 0) {
       setTimeout(() => hide(), timeout * 1000);
     }
-  }
+  };
 
   const hide = () => {
     dispatch({ type: HIDE_ALERT });
-  }
+  };
 
   const show = (
     text = '',

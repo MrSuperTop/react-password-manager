@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const AboutPage = () => {
   return (
@@ -7,7 +7,7 @@ const AboutPage = () => {
       <h2 className="text text-dimm">React App made to store your passwords and credetials safely.
       Trusted by thousands.</h2>
     </section>
-  )
-}
+  );
+};
 
-export default AboutPage
+export default AboutPage;

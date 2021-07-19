@@ -1,9 +1,8 @@
 import React, { useReducer, useContext } from 'react';
 
-// import { fetchCredentials, deleteOne as deleteOneAPI, addOne as addOneAPI, getOne as getOneAPI, editOne as editOneAPI } from '../../api';
 import * as api from '../../api';
 import AlertContext from '../alert/alertContext';
-import { FETCH_CREDENTIALS, SET_LOADING, ADD_ONE, DELETE_ONE, GET_ONE, UPDATE_ONE, CLEAR_DATA } from '../types';
+import { FETCH_CREDENTIALS, SET_LOADING, ADD_ONE, DELETE_ONE, UPDATE_ONE, CLEAR_DATA } from '../types';
 import CredentialsContext from './credentialsContext';
 import { credentialsReducer } from './credentialsReducer';
 
@@ -15,15 +14,16 @@ const CredentialsState = ({ children }) => {
     post: {}
   });
 
-  const alert = useContext(AlertContext)
+  const alert = useContext(AlertContext);
 
   // TODO: Нормально?
   const setLoading = (value) => {
-    dispatch({ type: SET_LOADING, payload: value })
+    dispatch({ type: SET_LOADING, payload: value });
   };
 
   const fetch = async () => {
     // TODO: Делать автоматом loading: true в reducer-е или и так нормально?
+    setLoading(true);
     const { data: { data } } = await api.fetchCredentials();
     dispatch({ type: FETCH_CREDENTIALS, payload: data });
     setLoading(false);
@@ -31,7 +31,7 @@ const CredentialsState = ({ children }) => {
 
   const clearData = async () => {
     dispatch({ type: CLEAR_DATA });
-  }
+  };
 
   const addItem = async (formData) => {
     const { data } = await api.addOne(formData);
@@ -45,29 +45,30 @@ const CredentialsState = ({ children }) => {
     // TODO: Кнопку для отмены
     const { data: { itemId, message } } = await api.deleteOne(id);
 
-    alert.show(message, 'danger')
+    alert.show(message, 'danger');
     dispatch({ type: DELETE_ONE, payload: itemId });
   };
 
   const fetchOne = async (id) => {
+    setLoading(true);
     const { data: { item } } = await api.getOne(id);
-  
-    dispatch({ type: GET_ONE, payload: item });
+
     setLoading(false);
+
+    return item;
   };
 
   const editItem = async (id, formData) => {
     const { data: { item, message } } = await api.editOne(id, formData);
 
-    alert.show(message, 'primary')
+    alert.show(message, 'primary');
     dispatch({ type: UPDATE_ONE, payload: item });
-  }
+  };
 
   return (
     <CredentialsContext.Provider value={{
       fetch, fetchOne, addItem, editItem,
       clearData, deleteItem,
-      singleItem: state.post,
       loading: state.loading,
       list: state.list
     }}>

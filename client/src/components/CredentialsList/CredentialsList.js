@@ -12,17 +12,17 @@ const CredentialsList = () => {
   
   useEffect(() => {
     credentials.fetch();
-  }, [])
+  }, []);
 
   const deleteItem = (id) => {
     credentials.deleteItem(id);
-  }
+  };
 
   const editItem = (id) => {
     history.push(`/edit/${id}`);
-  }
+  };
 
-  if (credentials.loading) return <Loader />
+  if (credentials.loading) return <Loader />;
 
   return (
     <div className="container credentials-container">

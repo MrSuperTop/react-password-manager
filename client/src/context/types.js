@@ -1,6 +1,6 @@
 // Auth
 export const LOG_IN = 'LOG_IN';
-export const LOG_OUT = 'LOG_OUT'
+export const LOG_OUT = 'LOG_OUT';
 export const IMPORT_DATA = 'IMPORT_DATA';
 
 // Credentials
@@ -8,7 +8,6 @@ export const FETCH_CREDENTIALS = 'FETCH_CREDENTIALS';
 export const SET_LOADING = 'SET_LOADING';
 export const ADD_ONE = 'ADD_ONE';
 export const DELETE_ONE = 'DELETE_ONE';
-export const GET_ONE = 'GET_ONE';
 export const UPDATE_ONE = 'UPDATE_ONE';
 
 // Inputs

@@ -15,7 +15,7 @@ const FormItem = ({ children, disabled, valueAttrName, label, id, type, placehol
 
     inputs.changeHandler(e);
     customHandler(e);
-  }
+  };
 
   return (
     <div className="form-item">

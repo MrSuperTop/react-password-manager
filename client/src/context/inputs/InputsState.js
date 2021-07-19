@@ -24,7 +24,7 @@ const initialStates = {
     excludeFromCharset: '',
     excludeSymbols: ''
   }
-}
+};
 
 const InputsState = ({ children }) => {
   // TODO: Про loading в этом стейте, или создать отдельный стейт для лоадингв
@@ -52,7 +52,7 @@ const InputsState = ({ children }) => {
     });
 
     dispatch({ type: CLEAR_DATA });
-  }
+  };
 
   const expandValues = (values) => {
     dispatch({
@@ -61,19 +61,19 @@ const InputsState = ({ children }) => {
     });
 
     dispatch({ type: CLEAR_DATA });
-  }
+  };
 
   const setType = (typeString, expandWith = []) => {
     setValues(initialStates[typeString]);
-    expandWith.map((item) => {
+    for (let item of expandWith) {
       expandValues({ ...state.initial, ...initialStates[item] });
-    });
+    };
   };
 
   const expandType = (expandWith = []) => {
-    expandWith.map((item) => {
+    for (let item of expandWith) {
       expandValues({ ...state.initial, ...initialStates[item] });
-    });
+    };
   };
 
   const setValue = (inputAttrName, value) => {
@@ -127,10 +127,10 @@ const InputsState = ({ children }) => {
     dispatch({ type: SET_INITIAL, payload: {
       ...state.values, [attrName]: value
     } });
-  }
+  };
 
   const clear = () => {
-    const middleware = state.clearMiddleware || (() => {})
+    const middleware = state.clearMiddleware || (() => {});
 
     middleware();
     dispatch({ type: CLEAR_DATA });

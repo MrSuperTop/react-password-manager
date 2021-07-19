@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,7 +22,7 @@ const HomePage = () => {
 
       <CredentialsList />
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

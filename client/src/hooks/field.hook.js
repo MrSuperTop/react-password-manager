@@ -20,6 +20,6 @@ const useField = (fieldName) => {
     set, clear, undo,
     value: inputs?.values[fieldName]
   };
-}
+};
 
-export default useField
+export default useField;

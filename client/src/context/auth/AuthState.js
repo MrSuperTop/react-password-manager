@@ -21,9 +21,8 @@ const AuthState = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log(user)
     if (user) {
-      dispatch({ type: IMPORT_DATA, payload: user })
+      dispatch({ type: IMPORT_DATA, payload: user });
     }
   }, []);
 
@@ -77,7 +76,7 @@ const AuthState = ({ children }) => {
     const decodedToken = decode(state.token);
 
     return decodedToken.exp * 1000;
-  }
+  };
 
   return (
     <AuthContext.Provider value={{

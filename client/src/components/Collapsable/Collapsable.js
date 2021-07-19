@@ -8,7 +8,7 @@ const Collapsable = ({ children, text, id }) => {
   const clickHandler = () => {
     const icon = conllapsableRef.current.children[0].children[0];
     icon.classList.toggle('upside-down');
-  }
+  };
 
   return (
     <div className="collapsable" ref={conllapsableRef}>
