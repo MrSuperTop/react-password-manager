@@ -6,6 +6,8 @@ const useAnimatedIcon = (initialIcon, totalDuration, buttonRef) => {
   const [icon, setIcon] = useState(initialIcon);
 
   const setWithAnimation = (newIcon) => {
+    if (newIcon === icon) return;
+
     let iconObject = buttonRef.current.children[0];
     iconObject.classList.add(className);
 

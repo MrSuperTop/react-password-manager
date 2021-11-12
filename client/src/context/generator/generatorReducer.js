@@ -11,11 +11,6 @@ const handlers = {
       };
     }, Object.values(payload)[0].current);
 
-    // FIX_ME: slice the object properly
-    // const sliced = Object.fromEntries(
-    //   Object.entries(refs).slice(???)
-    // );
-
     return {
       ...state,
       refs

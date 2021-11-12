@@ -20,6 +20,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/credentials', credentialsRouter);
 app.use('/api/users', usersRouter);
 
+console.log(process.env.MONGO_URI)
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

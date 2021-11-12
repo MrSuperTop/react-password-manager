@@ -37,12 +37,14 @@ const CredentialsItem = ({ data, deleteItem, editItem }) => {
             <h6>Email</h6>
             <p className="data-content">{data.email}</p>
           </div>
-          <div
-            className="action-btn btn btn-success"
-            data-to-copy={data.email}
-            onClick={copyData}
-          >
-            <FontAwesomeIcon icon={faClipboard}/>
+          <div className="data-item__buttons">
+            <div
+              className="action-btn btn btn-success"
+              data-to-copy={data.email}
+              onClick={copyData}
+            >
+              <FontAwesomeIcon icon={faClipboard}/>
+            </div>
           </div>
         </div>
         <div className="data-item">
